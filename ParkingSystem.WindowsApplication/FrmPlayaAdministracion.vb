@@ -8,7 +8,7 @@ Public Class FrmPlayaAdministracion
         Dim playas As ICollection(Of Playa) = playaLogic.Listar()
 
         Me.dgvPlayas.DataSource = playas
-        Me.dgvPlayas.Columns.Remove("Id")
+        Me.dgvPlayas.Columns("Id").Visible = False
         Me.dgvPlayas.Columns("Nombre").DisplayIndex = 0
         Me.dgvPlayas.Columns("Direccion").DisplayIndex = 1
         Me.dgvPlayas.Columns("HoraApertura").DisplayIndex = 2
