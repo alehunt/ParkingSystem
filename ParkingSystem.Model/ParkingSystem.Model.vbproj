@@ -62,6 +62,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CocheraFija.vb" />
+    <Compile Include="CocheraMovil.vb" />
+    <Compile Include="Enums.vb" />
+    <Compile Include="Espacio.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -77,6 +81,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Playa.vb" />
     <Compile Include="TipoVehiculo.vb" />
     <Compile Include="Vehiculo.vb" />
   </ItemGroup>

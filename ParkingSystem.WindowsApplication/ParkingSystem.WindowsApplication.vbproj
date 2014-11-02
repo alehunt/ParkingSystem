@@ -70,10 +70,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="FrmPlayaAdministracion.Designer.vb">
+      <DependentUpon>FrmPlayaAdministracion.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form1.vb">
+    <Compile Include="FrmPlayaAdministracion.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -93,6 +93,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmPlayaAdministracion.resx">
+      <DependentUpon>FrmPlayaAdministracion.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -111,6 +114,16 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ParkingSystem.BusinessLogic\ParkingSystem.BusinessLogic.vbproj">
+      <Project>{74884113-f23a-4138-8a16-944161beb273}</Project>
+      <Name>ParkingSystem.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParkingSystem.Model\ParkingSystem.Model.vbproj">
+      <Project>{02858b86-7d9f-46ba-bd17-ac0f464e1008}</Project>
+      <Name>ParkingSystem.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
