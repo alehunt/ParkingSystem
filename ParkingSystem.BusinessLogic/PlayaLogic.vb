@@ -7,4 +7,8 @@ Public Class PlayaLogic
         Return PlayaDataAccess.Listar()
     End Function
 
+    Sub Guardar(playa As Playa)
+        Throw New NotImplementedException
+    End Sub
+
 End Class

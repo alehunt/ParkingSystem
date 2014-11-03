@@ -2,11 +2,23 @@
 
 #Region "Private Members"
 
+    Private mId As Integer
     Private mNombre As String
     Private mDireccion As String
     Private mHoraApertura As DateTime
     Private mHoraCierre As DateTime
-    Private mId As Integer
+
+    Private mEspacios As Lazy(Of CollectionGeneric(Of Espacio))
+
+    Public Sub New(pEspaciosLazy As Lazy(Of CollectionGeneric(Of Espacio)))
+        Me.mEspacios = pEspaciosLazy
+    End Sub
+
+    Public ReadOnly Property Espacios() As CollectionGeneric(Of Espacio)
+        Get
+            Return mEspacios.Value
+        End Get
+    End Property
 
 #End Region
 

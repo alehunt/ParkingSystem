@@ -7,16 +7,19 @@ Public Class PlayaDataAccess
 
         Dim playasList As ICollection(Of Playa) = New List(Of Playa)
 
-        Dim playasDs As DataSet = Database.ExecuteDataset("Select Id, Direccion, Nombre, HoraApertura, HoraCierre from Playa")
+        Dim playasDs As DataSet = Database.ExecuteDataset("Select PlayaId, Direccion, Nombre, HoraApertura, HoraCierre from Playa")
 
         For Each playaRow As DataRow In playasDs.Tables(0).Rows
-            Dim playa As New Playa
-            playa.Id = playaRow("Id")
-            playa.Direccion = playaRow("Direccion")
-            playa.Nombre = playaRow("Nombre")
-            playa.HoraApertura = playaRow("HoraApertura")
-            playa.HoraCierre = playaRow("HoraCierre")
-            playasList.Add(playa)
+            Dim playaNew As New Playa(New Lazy(Of CollectionGeneric(Of Espacio))(Function()
+                                                                                     Return EspacioDataAccess.ListarPorPlaya(playaRow("PlayaId"))
+                                                                                 End Function))
+            playaNew.Id = playaRow("PlayaId")
+            playaNew.Direccion = playaRow("Direccion")
+            playaNew.Nombre = playaRow("Nombre")
+            playaNew.HoraApertura = playaRow("HoraApertura")
+            playaNew.HoraCierre = playaRow("HoraCierre")
+            playasList.Add(playaNew)
+
         Next
 
         Return playasList

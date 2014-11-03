@@ -70,10 +70,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmPlayaAdministracion.Designer.vb">
-      <DependentUpon>FrmPlayaAdministracion.vb</DependentUpon>
+    <Compile Include="FrmAdministracion.Designer.vb">
+      <DependentUpon>FrmAdministracion.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmPlayaAdministracion.vb">
+    <Compile Include="FrmAdministracion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPlayaAdministrar.Designer.vb">
+      <DependentUpon>FrmPlayaAdministrar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPlayaAdministrar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmVehiculoIngresar.Designer.vb">
+      <DependentUpon>FrmVehiculoIngresar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmVehiculoIngresar.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -93,8 +105,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FrmPlayaAdministracion.resx">
-      <DependentUpon>FrmPlayaAdministracion.vb</DependentUpon>
+    <EmbeddedResource Include="FrmAdministracion.resx">
+      <DependentUpon>FrmAdministracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPlayaAdministrar.resx">
+      <DependentUpon>FrmPlayaAdministrar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmVehiculoIngresar.resx">
+      <DependentUpon>FrmVehiculoIngresar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

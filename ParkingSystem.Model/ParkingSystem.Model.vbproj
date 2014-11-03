@@ -64,8 +64,10 @@
   <ItemGroup>
     <Compile Include="CocheraFija.vb" />
     <Compile Include="CocheraMovil.vb" />
+    <Compile Include="CollectionGeneric.vb" />
     <Compile Include="Enums.vb" />
     <Compile Include="Espacio.vb" />
+    <Compile Include="ICollectable.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

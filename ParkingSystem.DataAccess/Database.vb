@@ -20,13 +20,13 @@ Public Class Database
             For Each mErr As SqlError In ex.Errors
                 mStr &= mErr.Message & ControlChars.CrLf
             Next
-            MsgBox("Ocurrió un error en el acceso a la base de datos" & ControlChars.CrLf & _
-            "MENSAJE: " & ex.Message & ControlChars.CrLf & _
-            "ERRORES DEL SERVIDOR SQL: " & mStr)
-            Return Nothing
+
+            Throw New Exception("Ocurrió un error en el acceso a la base de datos" & ControlChars.CrLf & _
+                                            "MENSAJE: " & ex.Message & ControlChars.CrLf & _
+                                            "ERRORES DEL SERVIDOR SQL: " & mStr)
+
         Catch ex As Exception
-            MsgBox(ex.Message & "  METODO: ExecuteDataset, CLASE: ADOSQLServer")
-            Return Nothing
+            Throw New Exception(ex.Message & "  METODO: ExecuteDataset, CLASE: ADOSQLServer")
         Finally
             mCon.Close()
             mCon.Dispose()
