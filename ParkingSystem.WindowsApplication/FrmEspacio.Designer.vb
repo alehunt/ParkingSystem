@@ -29,9 +29,9 @@ Partial Class FrmEspacio
         Me.nupPiso = New System.Windows.Forms.NumericUpDown()
         Me.cbTamano = New System.Windows.Forms.ComboBox()
         Me.gbTipo = New System.Windows.Forms.GroupBox()
-        Me.rbFija = New System.Windows.Forms.RadioButton()
-        Me.rbMovil = New System.Windows.Forms.RadioButton()
         Me.mTxtValorMes = New System.Windows.Forms.MaskedTextBox()
+        Me.rbMovil = New System.Windows.Forms.RadioButton()
+        Me.rbFija = New System.Windows.Forms.RadioButton()
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         CType(Me.nupPiso, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,28 +99,6 @@ Partial Class FrmEspacio
         Me.gbTipo.TabStop = False
         Me.gbTipo.Text = "Tipo"
         '
-        'rbFija
-        '
-        Me.rbFija.AutoSize = True
-        Me.rbFija.Location = New System.Drawing.Point(107, 20)
-        Me.rbFija.Name = "rbFija"
-        Me.rbFija.Size = New System.Drawing.Size(41, 17)
-        Me.rbFija.TabIndex = 0
-        Me.rbFija.TabStop = True
-        Me.rbFija.Text = "Fija"
-        Me.rbFija.UseVisualStyleBackColor = True
-        '
-        'rbMovil
-        '
-        Me.rbMovil.AutoSize = True
-        Me.rbMovil.Location = New System.Drawing.Point(30, 20)
-        Me.rbMovil.Name = "rbMovil"
-        Me.rbMovil.Size = New System.Drawing.Size(50, 17)
-        Me.rbMovil.TabIndex = 1
-        Me.rbMovil.TabStop = True
-        Me.rbMovil.Text = "Movil"
-        Me.rbMovil.UseVisualStyleBackColor = True
-        '
         'mTxtValorMes
         '
         Me.mTxtValorMes.Location = New System.Drawing.Point(84, 48)
@@ -129,6 +107,28 @@ Partial Class FrmEspacio
         Me.mTxtValorMes.Size = New System.Drawing.Size(100, 20)
         Me.mTxtValorMes.TabIndex = 2
         Me.mTxtValorMes.ValidatingType = GetType(Integer)
+        '
+        'rbMovil
+        '
+        Me.rbMovil.AutoSize = True
+        Me.rbMovil.Location = New System.Drawing.Point(30, 20)
+        Me.rbMovil.Name = "rbMovil"
+        Me.rbMovil.Size = New System.Drawing.Size(50, 17)
+        Me.rbMovil.TabIndex = 1
+        Me.rbMovil.Text = "Movil"
+        Me.rbMovil.UseVisualStyleBackColor = True
+        '
+        'rbFija
+        '
+        Me.rbFija.AutoSize = True
+        Me.rbFija.Checked = True
+        Me.rbFija.Location = New System.Drawing.Point(107, 20)
+        Me.rbFija.Name = "rbFija"
+        Me.rbFija.Size = New System.Drawing.Size(41, 17)
+        Me.rbFija.TabIndex = 0
+        Me.rbFija.TabStop = True
+        Me.rbFija.Text = "Fija"
+        Me.rbFija.UseVisualStyleBackColor = True
         '
         'btnAceptar
         '
@@ -162,7 +162,9 @@ Partial Class FrmEspacio
         Me.Controls.Add(Me.lblTamano)
         Me.Controls.Add(Me.lblPiso)
         Me.Controls.Add(Me.lblCodigo)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "FrmEspacio"
+        Me.ShowInTaskbar = False
         Me.Text = "Espacio"
         CType(Me.nupPiso, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTipo.ResumeLayout(False)

@@ -23,21 +23,21 @@ Partial Class FrmPlaya
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.gbPlaya = New System.Windows.Forms.GroupBox()
-        Me.lblPlayaNombre = New System.Windows.Forms.Label()
-        Me.lblPlayaDireccion = New System.Windows.Forms.Label()
-        Me.txtPlayaNombre = New System.Windows.Forms.TextBox()
-        Me.txtPlayaDireccion = New System.Windows.Forms.TextBox()
-        Me.mTxtHoraApertura = New System.Windows.Forms.MaskedTextBox()
-        Me.lblHoraApertura = New System.Windows.Forms.Label()
-        Me.lblHoraCierre = New System.Windows.Forms.Label()
         Me.mTxtHoraCierre = New System.Windows.Forms.MaskedTextBox()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.lblHoraCierre = New System.Windows.Forms.Label()
+        Me.lblHoraApertura = New System.Windows.Forms.Label()
+        Me.mTxtHoraApertura = New System.Windows.Forms.MaskedTextBox()
+        Me.txtPlayaDireccion = New System.Windows.Forms.TextBox()
+        Me.txtPlayaNombre = New System.Windows.Forms.TextBox()
+        Me.lblPlayaDireccion = New System.Windows.Forms.Label()
+        Me.lblPlayaNombre = New System.Windows.Forms.Label()
+        Me.dgvEspacios = New System.Windows.Forms.DataGridView()
         Me.btnEspacioAgregar = New System.Windows.Forms.Button()
         Me.btnEspacioElminar = New System.Windows.Forms.Button()
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.gbPlaya.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvEspacios, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbPlaya
@@ -57,55 +57,14 @@ Partial Class FrmPlaya
         Me.gbPlaya.TabStop = False
         Me.gbPlaya.Text = "Playa"
         '
-        'lblPlayaNombre
+        'mTxtHoraCierre
         '
-        Me.lblPlayaNombre.AutoSize = True
-        Me.lblPlayaNombre.Location = New System.Drawing.Point(18, 33)
-        Me.lblPlayaNombre.Name = "lblPlayaNombre"
-        Me.lblPlayaNombre.Size = New System.Drawing.Size(47, 13)
-        Me.lblPlayaNombre.TabIndex = 0
-        Me.lblPlayaNombre.Text = "Nombre:"
-        '
-        'lblPlayaDireccion
-        '
-        Me.lblPlayaDireccion.AutoSize = True
-        Me.lblPlayaDireccion.Location = New System.Drawing.Point(18, 65)
-        Me.lblPlayaDireccion.Name = "lblPlayaDireccion"
-        Me.lblPlayaDireccion.Size = New System.Drawing.Size(55, 13)
-        Me.lblPlayaDireccion.TabIndex = 1
-        Me.lblPlayaDireccion.Text = "Direccion:"
-        '
-        'txtPlayaNombre
-        '
-        Me.txtPlayaNombre.Location = New System.Drawing.Point(95, 30)
-        Me.txtPlayaNombre.Name = "txtPlayaNombre"
-        Me.txtPlayaNombre.Size = New System.Drawing.Size(175, 20)
-        Me.txtPlayaNombre.TabIndex = 2
-        '
-        'txtPlayaDireccion
-        '
-        Me.txtPlayaDireccion.Location = New System.Drawing.Point(95, 58)
-        Me.txtPlayaDireccion.Name = "txtPlayaDireccion"
-        Me.txtPlayaDireccion.Size = New System.Drawing.Size(258, 20)
-        Me.txtPlayaDireccion.TabIndex = 3
-        '
-        'mTxtHoraApertura
-        '
-        Me.mTxtHoraApertura.Location = New System.Drawing.Point(527, 30)
-        Me.mTxtHoraApertura.Mask = "00:00"
-        Me.mTxtHoraApertura.Name = "mTxtHoraApertura"
-        Me.mTxtHoraApertura.Size = New System.Drawing.Size(37, 20)
-        Me.mTxtHoraApertura.TabIndex = 4
-        Me.mTxtHoraApertura.ValidatingType = GetType(Date)
-        '
-        'lblHoraApertura
-        '
-        Me.lblHoraApertura.AutoSize = True
-        Me.lblHoraApertura.Location = New System.Drawing.Point(445, 33)
-        Me.lblHoraApertura.Name = "lblHoraApertura"
-        Me.lblHoraApertura.Size = New System.Drawing.Size(76, 13)
-        Me.lblHoraApertura.TabIndex = 5
-        Me.lblHoraApertura.Text = "Hora Apertura:"
+        Me.mTxtHoraCierre.Location = New System.Drawing.Point(527, 61)
+        Me.mTxtHoraCierre.Mask = "00:00"
+        Me.mTxtHoraCierre.Name = "mTxtHoraCierre"
+        Me.mTxtHoraCierre.Size = New System.Drawing.Size(40, 20)
+        Me.mTxtHoraCierre.TabIndex = 7
+        Me.mTxtHoraCierre.ValidatingType = GetType(Date)
         '
         'lblHoraCierre
         '
@@ -116,25 +75,66 @@ Partial Class FrmPlaya
         Me.lblHoraCierre.TabIndex = 6
         Me.lblHoraCierre.Text = "Hora Cierre:"
         '
-        'mTxtHoraCierre
+        'lblHoraApertura
         '
-        Me.mTxtHoraCierre.Location = New System.Drawing.Point(527, 61)
-        Me.mTxtHoraCierre.Mask = "00:00"
-        Me.mTxtHoraCierre.Name = "mTxtHoraCierre"
-        Me.mTxtHoraCierre.Size = New System.Drawing.Size(40, 20)
-        Me.mTxtHoraCierre.TabIndex = 7
-        Me.mTxtHoraCierre.ValidatingType = GetType(Date)
+        Me.lblHoraApertura.AutoSize = True
+        Me.lblHoraApertura.Location = New System.Drawing.Point(445, 33)
+        Me.lblHoraApertura.Name = "lblHoraApertura"
+        Me.lblHoraApertura.Size = New System.Drawing.Size(76, 13)
+        Me.lblHoraApertura.TabIndex = 5
+        Me.lblHoraApertura.Text = "Hora Apertura:"
         '
-        'DataGridView1
+        'mTxtHoraApertura
         '
-        Me.DataGridView1.AllowUserToAddRows = False
-        Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(12, 119)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.Size = New System.Drawing.Size(630, 156)
-        Me.DataGridView1.TabIndex = 1
+        Me.mTxtHoraApertura.Location = New System.Drawing.Point(527, 30)
+        Me.mTxtHoraApertura.Mask = "00:00"
+        Me.mTxtHoraApertura.Name = "mTxtHoraApertura"
+        Me.mTxtHoraApertura.Size = New System.Drawing.Size(37, 20)
+        Me.mTxtHoraApertura.TabIndex = 4
+        Me.mTxtHoraApertura.ValidatingType = GetType(Date)
+        '
+        'txtPlayaDireccion
+        '
+        Me.txtPlayaDireccion.Location = New System.Drawing.Point(95, 58)
+        Me.txtPlayaDireccion.Name = "txtPlayaDireccion"
+        Me.txtPlayaDireccion.Size = New System.Drawing.Size(258, 20)
+        Me.txtPlayaDireccion.TabIndex = 3
+        '
+        'txtPlayaNombre
+        '
+        Me.txtPlayaNombre.Location = New System.Drawing.Point(95, 30)
+        Me.txtPlayaNombre.Name = "txtPlayaNombre"
+        Me.txtPlayaNombre.Size = New System.Drawing.Size(175, 20)
+        Me.txtPlayaNombre.TabIndex = 2
+        '
+        'lblPlayaDireccion
+        '
+        Me.lblPlayaDireccion.AutoSize = True
+        Me.lblPlayaDireccion.Location = New System.Drawing.Point(18, 65)
+        Me.lblPlayaDireccion.Name = "lblPlayaDireccion"
+        Me.lblPlayaDireccion.Size = New System.Drawing.Size(55, 13)
+        Me.lblPlayaDireccion.TabIndex = 1
+        Me.lblPlayaDireccion.Text = "Direccion:"
+        '
+        'lblPlayaNombre
+        '
+        Me.lblPlayaNombre.AutoSize = True
+        Me.lblPlayaNombre.Location = New System.Drawing.Point(18, 33)
+        Me.lblPlayaNombre.Name = "lblPlayaNombre"
+        Me.lblPlayaNombre.Size = New System.Drawing.Size(47, 13)
+        Me.lblPlayaNombre.TabIndex = 0
+        Me.lblPlayaNombre.Text = "Nombre:"
+        '
+        'dgvEspacios
+        '
+        Me.dgvEspacios.AllowUserToAddRows = False
+        Me.dgvEspacios.AllowUserToDeleteRows = False
+        Me.dgvEspacios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvEspacios.Location = New System.Drawing.Point(12, 119)
+        Me.dgvEspacios.Name = "dgvEspacios"
+        Me.dgvEspacios.ReadOnly = True
+        Me.dgvEspacios.Size = New System.Drawing.Size(630, 156)
+        Me.dgvEspacios.TabIndex = 1
         '
         'btnEspacioAgregar
         '
@@ -181,12 +181,15 @@ Partial Class FrmPlaya
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.btnEspacioElminar)
         Me.Controls.Add(Me.btnEspacioAgregar)
-        Me.Controls.Add(Me.DataGridView1)
+        Me.Controls.Add(Me.dgvEspacios)
         Me.Controls.Add(Me.gbPlaya)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "FrmPlaya"
+        Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.gbPlaya.ResumeLayout(False)
         Me.gbPlaya.PerformLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgvEspacios, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -199,7 +202,7 @@ Partial Class FrmPlaya
     Friend WithEvents lblHoraCierre As System.Windows.Forms.Label
     Friend WithEvents lblHoraApertura As System.Windows.Forms.Label
     Friend WithEvents mTxtHoraApertura As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents dgvEspacios As System.Windows.Forms.DataGridView
     Friend WithEvents btnEspacioAgregar As System.Windows.Forms.Button
     Friend WithEvents btnEspacioElminar As System.Windows.Forms.Button
     Friend WithEvents btnAceptar As System.Windows.Forms.Button

@@ -3,18 +3,27 @@ Imports ParkingSystem.Model
 
 Public Class FrmAdministracion
 
+    Private Property Playas As ICollection(Of Playa)
+
     Private Sub FrmPlayaAdministracion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim playaLogic As New PlayaLogic
         Me.InitializeGrid()
 
         Try
-            Dim playas As ICollection(Of Playa) = playaLogic.Listar()
-            Me.dgvPlayas.DataSource = playas
-            Me.dgvPlayas.Refresh()
+            Me.Playas = playaLogic.Listar()
+            Me.RefreshGrid()
+
         Catch ex As Exception
             MsgBox("Ocurrió un error en la carga de las Playas de estacionamiento.")
         End Try
         
+    End Sub
+
+    Private Sub RefreshGrid()
+        Me.dgvPlayas.DataSource = Nothing
+        Me.dgvPlayas.DataSource = Playas
+        Me.dgvPlayas.Refresh()
+
     End Sub
 
     Private Sub InitializeGrid()
@@ -76,13 +85,16 @@ Public Class FrmAdministracion
 
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnPlayaGenerar.Click
-        Dim frmPlaya As New FrmPlaya
+  
+    Private Sub btnPlayaGenerar_Click(sender As Object, e As EventArgs) Handles btnPlayaGenerar.Click
+
+        Dim frmPlaya As New FrmPlaya()
         If (frmPlaya.ShowDialog() = Windows.Forms.DialogResult.OK) Then
-
-
-
-
+            Dim playaGenerada As Playa = frmPlaya.Playa
+            Dim playaLogic As New PlayaLogic
+            playaLogic.Guardar(playaGenerada)
+            Me.Playas.Add(playaGenerada)
+            Me.RefreshGrid()
         End If
 
     End Sub

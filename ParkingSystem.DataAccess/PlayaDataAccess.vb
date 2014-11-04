@@ -13,7 +13,7 @@ Public Class PlayaDataAccess
             Dim playaNew As New Playa(New Lazy(Of CollectionGeneric(Of Espacio))(Function()
                                                                                      Return EspacioDataAccess.ListarPorPlaya(playaRow("PlayaId"))
                                                                                  End Function))
-            playaNew.Id = playaRow("PlayaId")
+            playaNew.PlayaId = playaRow("PlayaId")
             playaNew.Direccion = playaRow("Direccion")
             playaNew.Nombre = playaRow("Nombre")
             playaNew.HoraApertura = playaRow("HoraApertura")
@@ -26,7 +26,19 @@ Public Class PlayaDataAccess
     End Function
 
     Shared Sub Guardar(playa As Playa)
-        Throw New NotImplementedException
+
+        Dim proximoId As Integer = Database.ObtenerId("Playa") + 1
+
+        Dim command As String = "INSERT INTO PLAYA(PlayaId, Nombre, Direccion, HoraApertura, HoraCierre) " & _
+                                "VALUES(" & proximoId & ", '" & playa.Nombre & "', '" & playa.Direccion & "', '" & _
+                                CDate(playa.HoraApertura).ToString("HH:mm:ss") & "' , '" & CDate(playa.HoraCierre).ToString("HH:mm:ss") & "')"
+
+        Try
+            Database.ExecuteNonQuery(command)
+            playa.PlayaId = proximoId
+        Catch ex As Exception
+            Throw New ApplicationException("Ocurrio un error al insertar un vehiculo ", ex)
+        End Try
     End Sub
 
 End Class

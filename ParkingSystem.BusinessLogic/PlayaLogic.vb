@@ -8,6 +8,7 @@ Public Class PlayaLogic
     End Function
 
     Sub Guardar(playa As Playa)
+
         PlayaDataAccess.Guardar(playa)
 
 

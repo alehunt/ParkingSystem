@@ -2,7 +2,7 @@
 
 #Region "Private Members"
 
-    Private mId As Integer
+    Private mPlayaId As Integer
     Private mNombre As String
     Private mDireccion As String
     Private mHoraApertura As DateTime
@@ -34,12 +34,12 @@
 
 
 #Region "Properties"
-    Public Property Id() As Integer
+    Public Property PlayaId() As Integer
         Get
-            Return mId
+            Return mPlayaId
         End Get
         Set(ByVal value As Integer)
-            mId = value
+            mPlayaId = value
         End Set
     End Property
 
