@@ -5,26 +5,36 @@ Public Class FrmPlayaAdministrar
 
     Public Sub New(pPlaya As Playa)
         Me.InitializeComponent()
-
         Me.Playa = pPlaya
     End Sub
 
     Private Property Playa As Playa
     Private Property PlayaLogic As New PlayaLogic
+    Private Property PlayaCerrada As Boolean = False
 
 
     Private Sub FrmPlayaAdministrar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = Me.Playa.Nombre
 
-        If (Me.Playa.HoraApertura > DateTime.Now.ToShortTimeString Or Me.Playa.HoraCierre < DateTime.Now.ToShortTimeString()) Then
-            Me.btnVehiculoEgresar.Enabled = False
-            Me.btnVehiculoIngresar.Enabled = False
+        If (Me.Playa.HoraApertura <= DateTime.Now.ToShortTimeString And DateTime.Now.ToShortTimeString() <= Me.Playa.HoraCierre) Then
+            Me.PlayaCerrar()
         End If
 
-
         Me.InitializeGrid()
-        Me.dgvEspacios.DataSource = Me.Playa.Espacios
+        Me.RefreshGrid()
 
+    End Sub
+
+    Private Sub RefreshGrid()
+        Me.dgvEspacios.DataSource = Nothing
+        Me.dgvEspacios.DataSource = Me.Playa.Espacios
+    End Sub
+
+    Private Sub PlayaCerrar()
+        Me.btnVehiculoEgresar.Enabled = False
+        Me.btnVehiculoIngresar.Enabled = False
+        Me.PlayaCerrada = True
+        Me.btnAceptar.Enabled = False
     End Sub
 
     Private Sub InitializeGrid()
@@ -59,10 +69,18 @@ Public Class FrmPlayaAdministrar
         dgvColumnTamano.Visible = True
         dgvColumnTamano.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
+        Dim dgvColumnTipo As New DataGridViewTextBoxColumn()
+        dgvColumnTipo.HeaderText = "Tipo"
+        dgvColumnTipo.Name = "Tipo"
+        dgvColumnTipo.DataPropertyName = "Tipo"
+        dgvColumnTipo.DisplayIndex = 3
+        dgvColumnTipo.Visible = True
+        dgvColumnTipo.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
         Dim dgvColumnSituacion As New DataGridViewTextBoxColumn()
         dgvColumnSituacion.HeaderText = "Situacion"
         dgvColumnSituacion.Name = "Situacion"
-        dgvColumnSituacion.DisplayIndex = 3
+        dgvColumnSituacion.DisplayIndex = 4
         dgvColumnSituacion.ValueType = GetType(String)
         dgvColumnSituacion.Visible = True
         dgvColumnSituacion.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
@@ -71,28 +89,28 @@ Public Class FrmPlayaAdministrar
         dgvColumnVehiculo.HeaderText = "Vehiculo"
         dgvColumnVehiculo.Name = "Vehiculo"
         dgvColumnVehiculo.DataPropertyName = "Vehiculo"
-        dgvColumnVehiculo.DisplayIndex = 4
+        dgvColumnVehiculo.DisplayIndex = 5
         dgvColumnVehiculo.ValueType = GetType(Vehiculo)
         dgvColumnVehiculo.Visible = False
 
         Dim dgvColumnPatente As New DataGridViewTextBoxColumn()
         dgvColumnPatente.HeaderText = "Patente"
         dgvColumnPatente.Name = "Patente"
-        dgvColumnPatente.DisplayIndex = 5
+        dgvColumnPatente.DisplayIndex = 6
         dgvColumnPatente.ValueType = GetType(String)
         dgvColumnPatente.Visible = True
 
         Dim dgvColumnAbono As New DataGridViewTextBoxColumn()
         dgvColumnAbono.HeaderText = "Abono"
         dgvColumnAbono.Name = "Abono"
-        dgvColumnAbono.DisplayIndex = 6
+        dgvColumnAbono.DisplayIndex = 7
         dgvColumnAbono.ValueType = GetType(Boolean)
         dgvColumnAbono.Visible = True
 
         Dim dgvColumnHoraEntrada As New DataGridViewTextBoxColumn()
         dgvColumnHoraEntrada.HeaderText = "Hora de Entrada"
         dgvColumnHoraEntrada.Name = "HoraEntrada"
-        dgvColumnHoraEntrada.DisplayIndex = 7
+        dgvColumnHoraEntrada.DisplayIndex = 8
         dgvColumnHoraEntrada.ValueType = GetType(String)
         dgvColumnHoraEntrada.Visible = True
 
@@ -100,6 +118,7 @@ Public Class FrmPlayaAdministrar
         Me.dgvEspacios.Columns.Add(dgvColumnCodigo)
         Me.dgvEspacios.Columns.Add(dgvColumnPiso)
         Me.dgvEspacios.Columns.Add(dgvColumnTamano)
+        Me.dgvEspacios.Columns.Add(dgvColumnTipo)
         Me.dgvEspacios.Columns.Add(dgvColumnSituacion)
         Me.dgvEspacios.Columns.Add(dgvColumnVehiculo)
         Me.dgvEspacios.Columns.Add(dgvColumnPatente)
@@ -123,20 +142,26 @@ Public Class FrmPlayaAdministrar
                 row.Cells("Abono").Value = espacio.Vehiculo.Abono
             End If
 
-            If (espacio Is GetType(CocheraMovil)) Then
+            If (espacio.GetType Is GetType(CocheraMovil)) Then
                 Dim horaEntrada As DateTime? = DirectCast(espacio, CocheraMovil).HoraEntrada
-                row.Cells("HoraEntrada").Value = IIf(horaEntrada.HasValue, horaEntrada.Value.ToShortTimeString, "")
+                If (horaEntrada.HasValue) And Not espacio.Vehiculo Is Nothing Then
+                    row.Cells("HoraEntrada").Value = horaEntrada.Value.ToString("HH:mm:ss")
+                End If
+                row.Cells("Tipo").Value = "Movil"
+            Else
+                row.Cells("Tipo").Value = "Fija"
             End If
         Next
 
     End Sub
 
     Private Sub dgvEspacios_SelectionChanged(sender As Object, e As EventArgs) Handles dgvEspacios.SelectionChanged
-
-        If (Me.dgvEspacios.SelectedRows.Count > 0) Then
-            Dim row As DataGridViewRow = Me.dgvEspacios.SelectedRows(0)
-            Dim espacio As Espacio = row.DataBoundItem
-            Me.EspacioDesocupado(espacio.Vehiculo Is Nothing)
+        If (Not Me.PlayaCerrada) Then
+            If (Me.dgvEspacios.SelectedRows.Count > 0) Then
+                Dim row As DataGridViewRow = Me.dgvEspacios.SelectedRows(0)
+                Dim espacio As Espacio = row.DataBoundItem
+                Me.EspacioDesocupado(espacio.Vehiculo Is Nothing)
+            End If
         End If
 
     End Sub
@@ -147,16 +172,60 @@ Public Class FrmPlayaAdministrar
     End Sub
 
     Private Sub btnVehiculoIngresar_Click(sender As Object, e As EventArgs) Handles btnVehiculoIngresar.Click
-        Dim frmVehiculoIngresar As New FrmVehiculoIngresar()
+        Dim espacioSeleccionado As Espacio = Me.dgvEspacios.SelectedRows(0).DataBoundItem
+        Dim frmVehiculoIngresar As New FrmVehiculoIngresar(espacioSeleccionado)
+
         If (frmVehiculoIngresar.ShowDialog = Windows.Forms.DialogResult.OK) Then
             Dim vehiculoIngresado As Vehiculo = frmVehiculoIngresar.Vehiculo
-            Dim espacioSeleccionado As Espacio = Me.dgvEspacios.SelectedRows(0).DataBoundItem
-            espacioSeleccionado.Vehiculo = vehiculoIngresado
+
+            Dim vehiculoExistente = Me.Playa.Espacios.Any(Function(x As Espacio)
+                                                              Return Not x.Vehiculo Is Nothing AndAlso x.Vehiculo.Patente.ToUpper = vehiculoIngresado.Patente.ToUpper
+                                                          End Function)
+            If (Not vehiculoExistente) Then
+                espacioSeleccionado.Vehiculo = vehiculoIngresado
+
+                If (espacioSeleccionado.GetType Is GetType(CocheraMovil)) Then
+                    DirectCast(espacioSeleccionado, CocheraMovil).HoraEntrada = DateTime.Now
+                End If
+
+                Dim espacioLogic As New EspacioLogic
+                espacioLogic.Guardar(espacioSeleccionado)
+                Me.RefreshGrid()
+            Else
+                MsgBox("Ya existe un vehiculo cargado en el establecimiento con la patente indicada.")
+            End If
         End If
 
     End Sub
 
-    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs)
         Me.PlayaLogic.Guardar(Me.Playa)
+        Me.Close()
     End Sub
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs)
+        Me.Close()
+    End Sub
+
+    Private Sub btnVehiculoEgresar_Click(sender As Object, e As EventArgs) Handles btnVehiculoEgresar.Click
+        Dim espacioSeleccionado As Espacio = Me.dgvEspacios.SelectedRows(0).DataBoundItem
+        Dim frmVehiculoEgresar As New FrmVehiculoEgresar(espacioSeleccionado)
+
+        If (frmVehiculoEgresar.ShowDialog = Windows.Forms.DialogResult.OK) Then
+            espacioSeleccionado.Vehiculo = Nothing
+
+            If (espacioSeleccionado.GetType Is GetType(CocheraMovil)) Then
+                DirectCast(espacioSeleccionado, CocheraMovil).HoraSalida = DateTime.Now
+            End If
+
+            Dim espacioLogic As New EspacioLogic
+            espacioLogic.Guardar(espacioSeleccionado)
+            Me.RefreshGrid()
+        End If
+    End Sub
+
+    Private Function btnAceptar() As Object
+        Throw New NotImplementedException
+    End Function
+
 End Class

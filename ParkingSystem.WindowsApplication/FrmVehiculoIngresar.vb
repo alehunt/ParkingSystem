@@ -1,55 +1,69 @@
 ﻿Imports ParkingSystem.BusinessLogic
 Imports ParkingSystem.Model
+Imports System.Text.RegularExpressions
+Imports ParkingSystem.Model.Enums
 
 Public Class FrmVehiculoIngresar
 
     Public Property Vehiculo As Vehiculo
+    Private Property VehiculoLogic As New VehiculoLogic
+    Private Property Espacio As Espacio
+
+    Public Sub New(pEspacio As Espacio)
+        Me.InitializeComponent()
+
+        Me.Espacio = pEspacio
+        Me.Vehiculo = New Vehiculo()
+        Me.Vehiculo.Tipo = Me.VehiculoLogic.ObtenerTipoPorTamano(pEspacio.Tamano)
+
+    End Sub
 
     Private Sub FrmVehiculoIngresar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Dim vehiculoLogic As New VehiculoLogic
-        Me.Vehiculo = New Vehiculo()
-
-        Me.cbTipoVehiculo.ValueMember = "TipoVehiculoId"
-        Me.cbTipoVehiculo.DisplayMember = "Nombre"
-        Me.cbTipoVehiculo.DataSource = vehiculoLogic.ListarTipos()
-        Me.cbTipoVehiculo.SelectedIndex = 0
+        Me.MostrarTipoVehiculo()
+        Me.btnAceptar.Enabled = False
     End Sub
 
-    Private Sub cbTipoVehiculo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbTipoVehiculo.SelectedIndexChanged
-        If (Me.cbTipoVehiculo.SelectedIndex >= 0) Then
-            Me.CargarTipoVehiculoSeleccionado()
-
-        End If
-    End Sub
-
-    Private Sub btnBuscarPatente_Click(sender As Object, e As EventArgs) Handles btnBuscarPatente.Click
-        If (String.IsNullOrEmpty(Me.txtPatente.Text)) Then
-            MsgBox("Por favor ingrese alguna patente para buscar..")
-        Else
-            Dim vehiculoEncontrado As Vehiculo = VehiculoLogic.ObtenerPorPatente(Me.txtPatente.Text)
-
-            If (Not vehiculoEncontrado Is Nothing) Then
-                Me.CargarVehiculo(vehiculoEncontrado)
-            End If
-        End If
-
-    End Sub
-
-    Private Sub CargarVehiculo(vehiculoEncontrado As Model.Vehiculo)
-        Me.cbTipoVehiculo.SelectedItem = vehiculoEncontrado.Tipo
-        Me.CargarTipoVehiculoSeleccionado()
-        Me.chkAbono.Checked = vehiculoEncontrado.Abono
-    End Sub
-
-    Private Sub CargarTipoVehiculoSeleccionado()
-        Dim tipoVehiculo As TipoVehiculo = Me.cbTipoVehiculo.SelectedItem
-        Me.lblTipoVehiculoValorEstadiaValue.Text = tipoVehiculo.ValorEstadia.ToString("##.##")
-        Me.lblTipoVehiculoValorHoraValue.Text = tipoVehiculo.ValorHora.ToString("##.##")
+    Private Sub MostrarTipoVehiculo()
+        Me.lblTipoVehiculoNombreValue.Text = Me.Vehiculo.Tipo.Nombre
+        Me.lblTipoVehiculoValorEstadiaValue.Text = ((Me.Espacio.PorcentajeValor * Me.Vehiculo.Tipo.ValorEstadia) / 100).ToString("##.##")
+        Me.lblTipoVehiculoValorHoraValue.Text = ((Me.Espacio.PorcentajeValor * Me.Vehiculo.Tipo.ValorHora) / 100).ToString("##.##")
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        Me.DialogResult = Windows.Forms.DialogResult.OK
+        If (Me.ValidarVehiculo()) Then
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        End If
+    End Sub
+
+    Private Function ValidarVehiculo() As Boolean
+        Dim validated As Boolean = False
+
+        If (Me.mTxtPatente.Text.Count = 7) Then
+            Me.Vehiculo.Patente = Me.mTxtPatente.Text
+            Me.Vehiculo.Abono = Me.chkAbono.Checked
+            validated = True
+        End If
+
+        Return validated
+    End Function
+
+    Private Sub mTxtPatente_Validated(sender As Object, e As EventArgs) Handles mTxtPatente.Validated
+        Me.btnAceptar.Enabled = Me.ValidarPatente(Me.mTxtPatente.Text)
+    End Sub
+
+    Private Function ValidarPatente(pPatente As String) As Boolean
+        Dim patenteValida As Boolean = False
+
+        If (Me.mTxtPatente.Text.Count = 7) Then
+            patenteValida = True
+        End If
+
+        Return patenteValida
+    End Function
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 End Class

@@ -8,7 +8,16 @@ Public Class PlayaLogic
     End Function
 
     Sub Guardar(playa As Playa)
-        Throw New NotImplementedException
+        PlayaDataAccess.Guardar(playa)
+
+
+
+
+
+
+
+
+
     End Sub
 
 End Class

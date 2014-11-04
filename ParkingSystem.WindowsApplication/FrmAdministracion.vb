@@ -75,4 +75,15 @@ Public Class FrmAdministracion
         End If
 
     End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnPlayaGenerar.Click
+        Dim frmPlaya As New FrmPlaya
+        If (frmPlaya.ShowDialog() = Windows.Forms.DialogResult.OK) Then
+
+
+
+
+        End If
+
+    End Sub
 End Class

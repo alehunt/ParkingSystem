@@ -25,4 +25,8 @@ Public Class PlayaDataAccess
         Return playasList
     End Function
 
+    Shared Sub Guardar(playa As Playa)
+        Throw New NotImplementedException
+    End Sub
+
 End Class

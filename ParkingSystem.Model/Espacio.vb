@@ -4,11 +4,14 @@ Public MustInherit Class Espacio
     Implements ICollectable
 
 #Region "Private Properties"
+
     Private mCodigo As String
     Private mPiso As Integer
     Private mVehiculo As Vehiculo
     Private mTamano As Tamano
     Private mPlayaId As Integer
+    Private mEspacioId As Integer
+
 #End Region
 
 #Region "Properties"
@@ -69,6 +72,16 @@ Public MustInherit Class Espacio
             mCodigo = value
         End Set
     End Property
+
+    Public Property EspacioId() As Integer
+        Get
+            Return mEspacioId
+        End Get
+        Set(ByVal value As Integer)
+            mEspacioId = value
+        End Set
+    End Property
+
 #End Region
 
 

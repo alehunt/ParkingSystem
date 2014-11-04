@@ -37,4 +37,32 @@ Public Class VehiculoDataAccess
         Return vehiculo
     End Function
 
+    Shared Sub Guardar(vehiculo As Vehiculo)
+        Dim proximoId As Integer = Database.ObtenerId("Vehiculo") + 1
+
+        Dim command As String = "INSERT INTO VEHICULO (VehiculoId, Patente, Abono, TipoVehiculoId) " & _
+                                "VALUES(" & proximoId & ", '" & vehiculo.Patente & "'," & IIf(vehiculo.Abono, 1, 0) & "," & vehiculo.Tipo.TipoVehiculoId & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+            vehiculo.VehiculoId = proximoId
+            vehiculo.State = ICollectable.States.Unchanged
+        Catch ex As Exception
+            Throw New ApplicationException("Ocurrio un error al insertar un vehiculo ", ex)
+        End Try
+    End Sub
+
+    Shared Sub Modificar(vehiculo As Vehiculo)
+        Dim command As String = "Update Vehiculo Set Abono = " & IIf(vehiculo.Abono, 1, 0) & ", TipoVehiculoId = " & vehiculo.Tipo.TipoVehiculoId & _
+                                " Where VehiculoId = " & vehiculo.VehiculoId
+
+        Try
+            Database.ExecuteNonQuery(command)
+            vehiculo.State = ICollectable.States.Unchanged
+        Catch ex As Exception
+            Throw New ApplicationException("Ocurrio un error al insertar un vehiculo ", ex)
+        End Try
+
+    End Sub
+
 End Class

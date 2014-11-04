@@ -25,6 +25,7 @@ Public Class EspacioDataAccess
                 DirectCast(espacio, CocheraFija).ValorMes = espacioRow("ValorMes")
             End If
 
+            espacio.EspacioId = espacioRow("EspacioId")
             espacio.PlayaId = espacioRow("PlayaId")
             espacio.Codigo = espacioRow("Codigo")
             espacio.Piso = espacioRow("Piso")
@@ -40,5 +41,58 @@ Public Class EspacioDataAccess
 
         Return espaciosList
     End Function
+
+    Shared Sub Modificar(espacio As Espacio)
+
+        Dim vehiculoId As String = "Null"
+
+        If (Not espacio.Vehiculo Is Nothing) Then
+            vehiculoId = espacio.Vehiculo.VehiculoId
+        End If
+
+        Dim command As String = "UPDATE Espacio SET Codigo = '" & espacio.Codigo & "'," & _
+                        " Piso =  " & espacio.Piso & "," & _
+                        " Tamano =  '" & espacio.Tamano.ToString() & "'," & _
+                        " VehiculoId = " & vehiculoId & _
+                        " WHERE EspacioId = " & espacio.EspacioId
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al modificar un espacio", ex)
+        End Try
+
+
+    End Sub
+
+    Shared Sub Modificar(cocheraMovil As CocheraMovil)
+
+
+        Dim horaEntrada As String = DBNull.Value.ToString
+        Dim horaSalida As String = DBNull.Value.ToString
+
+        If (cocheraMovil.HoraEntrada.HasValue) Then
+            horaEntrada = cocheraMovil.HoraEntrada.Value.ToString("HH:mm:ss")
+        End If
+
+        If (cocheraMovil.HoraSalida.HasValue) Then
+            horaSalida = cocheraMovil.HoraSalida.Value.ToString("HH:mm:ss")
+        End If
+
+        Dim command As String = "UPDATE CocheraMovil SET HoraEntrada = '" & horaEntrada & "'" & _
+                                ", HoraSalida = '" & horaSalida & "'" & _
+                                " WHERE EspacioId = " & cocheraMovil.EspacioId
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al modificar un espacio", ex)
+        End Try
+    End Sub
+
+
+    Shared Sub Guardar(espacio As Espacio)
+        Throw New NotImplementedException
+    End Sub
 
 End Class

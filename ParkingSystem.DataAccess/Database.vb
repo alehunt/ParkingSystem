@@ -53,8 +53,7 @@ Public Class Database
             "ERRORES DEL SERVIDOR SQL: " & mStr)
             Return Nothing
         Catch ex As Exception
-            MsgBox(ex.Message & "  METODO: ExecuteReader, CLASE: ADOSQLServer")
-            Return Nothing
+            Throw New Exception(ex.Message & "  METODO: ExecuteReader, CLASE: ADOSQLServer")
         Finally
             mDr.Close()
             mCon.Close()
@@ -69,8 +68,7 @@ Public Class Database
             mCon.Open()
             Return mCom.ExecuteNonQuery
         Catch ex As Exception
-            MsgBox(ex.Message & "  METODO: ExecuteNonQuery, CLASE: ADOSQLServer")
-            Return Nothing
+            Throw New Exception(ex.Message & "  METODO: ExecuteNonQuery, CLASE: ADOSQLServer")
         Finally
             mCon.Close()
             mCon.Dispose()
@@ -80,12 +78,11 @@ Public Class Database
     Friend Shared Function ObtenerId(ByVal pTabla As String) As Integer
         Try
             mCon = New SqlConnection(StrConnection)
-            Dim mCom As New SqlCommand("SELECT ISNULL(MAX(" & pTabla & "_Id),0) FROM " & pTabla, mCon)
+            Dim mCom As New SqlCommand("SELECT ISNULL(MAX(" & pTabla & "Id),0) FROM " & pTabla, mCon)
             mCon.Open()
             Return mCom.ExecuteScalar
         Catch ex As Exception
-            MsgBox(ex.Message & "  METODO: ObtenerId, CLASE: ADOSQLServer")
-            Return Nothing
+            Throw New Exception(ex.Message & "  METODO: ObtenerId, CLASE: ADOSQLServer")
         Finally
             mCon.Close()
             mCon.Dispose()

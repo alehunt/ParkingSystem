@@ -10,10 +10,6 @@
 
     Private mEspacios As Lazy(Of CollectionGeneric(Of Espacio))
 
-    Public Sub New(pEspaciosLazy As Lazy(Of CollectionGeneric(Of Espacio)))
-        Me.mEspacios = pEspaciosLazy
-    End Sub
-
     Public ReadOnly Property Espacios() As CollectionGeneric(Of Espacio)
         Get
             Return mEspacios.Value
@@ -21,6 +17,21 @@
     End Property
 
 #End Region
+
+
+#Region "Constructors"
+    Public Sub New()
+        Me.mEspacios = New Lazy(Of CollectionGeneric(Of Espacio))(Function()
+                                                                      Return New CollectionGeneric(Of Espacio)
+                                                                  End Function)
+
+    End Sub
+
+    Public Sub New(pEspaciosLazy As Lazy(Of CollectionGeneric(Of Espacio)))
+        Me.mEspacios = pEspaciosLazy
+    End Sub
+#End Region
+
 
 #Region "Properties"
     Public Property Id() As Integer
