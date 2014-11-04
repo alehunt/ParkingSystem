@@ -16,11 +16,11 @@ Public Class PlayaLogic
 
                 Dim espacioLogic As New EspacioLogic
 
+                'TODO: La logic puede chequear el state y en base a eso, agregar, modificar o eliminar
                 For Each espacio In playa.Espacios
                     espacio.PlayaId = playa.PlayaId
                     espacioLogic.Guardar(espacio)
                 Next
-
 
                 scope.Complete()
             End Using
