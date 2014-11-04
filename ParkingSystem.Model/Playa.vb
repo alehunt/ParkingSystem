@@ -46,7 +46,7 @@
 
     Public Property HoraCierre() As String
         Get
-            Return mHoraCierre.ToShortTimeString()
+            Return mHoraCierre.ToString("HH:mm:ss")
         End Get
         Set(ByVal value As String)
             mHoraCierre = value
@@ -55,7 +55,7 @@
 
     Public Property HoraApertura() As String
         Get
-            Return mHoraApertura.ToShortTimeString()
+            Return mHoraApertura.ToString("HH:mm:ss")
         End Get
         Set(ByVal value As String)
             mHoraApertura = value

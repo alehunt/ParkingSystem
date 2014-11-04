@@ -12,11 +12,13 @@ Public Class FrmPlayaAdministrar
     Private Property PlayaLogic As New PlayaLogic
     Private Property PlayaCerrada As Boolean = False
 
+    Private Property btnAceptar As Object
+
 
     Private Sub FrmPlayaAdministrar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = Me.Playa.Nombre
 
-        If (Me.Playa.HoraApertura <= DateTime.Now.ToShortTimeString And DateTime.Now.ToShortTimeString() <= Me.Playa.HoraCierre) Then
+        If (Not (Me.Playa.HoraApertura <= DateTime.Now.ToString("HH:mm:ss") And DateTime.Now.ToString("HH:mm:ss") <= Me.Playa.HoraCierre)) Then
             Me.PlayaCerrar()
         End If
 
@@ -34,7 +36,6 @@ Public Class FrmPlayaAdministrar
         Me.btnVehiculoEgresar.Enabled = False
         Me.btnVehiculoIngresar.Enabled = False
         Me.PlayaCerrada = True
-        Me.btnAceptar.Enabled = False
     End Sub
 
     Private Sub InitializeGrid()
@@ -223,9 +224,5 @@ Public Class FrmPlayaAdministrar
             Me.RefreshGrid()
         End If
     End Sub
-
-    Private Function btnAceptar() As Object
-        Throw New NotImplementedException
-    End Function
 
 End Class

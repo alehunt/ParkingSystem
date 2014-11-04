@@ -48,5 +48,11 @@ Public Class EspacioLogic
         Return monto
     End Function
 
+    Sub EliminarPorPlaya(playaId As Integer)
+        EspacioDataAccess.EliminarCocheraFijaPorPlaya(playaId)
+        EspacioDataAccess.EliminarCocheraMovilPorPlaya(playaId)
+        EspacioDataAccess.EliminarEspacioPorPlaya(playaId)
+    End Sub
+
 
 End Class

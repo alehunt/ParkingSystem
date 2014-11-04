@@ -92,7 +92,81 @@ Public Class EspacioDataAccess
 
 
     Shared Sub Guardar(espacio As Espacio)
-        Throw New NotImplementedException
+
+        Dim proximoId = Database.ObtenerId("Espacio") + 1
+
+        Dim vehiculoId As String = "Null"
+
+        If (Not espacio.Vehiculo Is Nothing) Then
+            vehiculoId = espacio.Vehiculo.VehiculoId
+        End If
+
+        Dim command As String = "Insert Into Espacio (EspacioId, PlayaId, Codigo, Piso,Tamano, VehiculoId) " & _
+                                "Values(" & proximoId & ", " & espacio.PlayaId & ", '" & espacio.Codigo & "', " & _
+                                espacio.Piso & ", '" & espacio.Tamano & "', " & vehiculoId & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+            espacio.EspacioId = proximoId
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al crear un espacio", ex)
+        End Try
+    End Sub
+
+
+    Shared Sub Guardar(cocheraMovil As CocheraMovil)
+
+        Dim command As String = "Insert Into CocheraMovil(EspacioId) " & _
+                                "Values(" & cocheraMovil.EspacioId & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al crear una cochera movil", ex)
+        End Try
+    End Sub
+
+    Shared Sub Guardar(cocheraFija As CocheraFija)
+
+        Dim command As String = "Insert Into CocheraFija(EspacioId, ValorMes) " & _
+                                "Values(" & cocheraFija.EspacioId & ", " & cocheraFija.ValorMes & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al crear una cochera movil", ex)
+        End Try
+    End Sub
+
+    Shared Sub EliminarEspacioPorPlaya(playaId As Integer)
+        Dim command As String = "Delete from Espacio where PlayaId = " & playaId
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al crear una cochera movil", ex)
+        End Try
+    End Sub
+
+    Shared Sub EliminarCocheraFijaPorPlaya(playaId As Integer)
+        Dim command As String = "Delete from CocheraFija where EspacioId in (Select EspacioId from Espacio where PlayaId = " & playaId & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al eliminar las cocheras fijas", ex)
+        End Try
+    End Sub
+
+
+    Shared Sub EliminarCocheraMovilPorPlaya(playaId As Integer)
+        Dim command As String = "Delete from CocheraMovil where EspacioId in (Select EspacioId from Espacio where PlayaId = " & playaId & ")"
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al eliminar las cocheras moviles", ex)
+        End Try
     End Sub
 
 End Class

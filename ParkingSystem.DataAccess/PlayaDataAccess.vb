@@ -41,4 +41,14 @@ Public Class PlayaDataAccess
         End Try
     End Sub
 
+    Shared Sub Eliminar(playa As Playa)
+        Dim command As String = "Delete from Playa where PlayaId = " & playa.PlayaId
+
+        Try
+            Database.ExecuteNonQuery(command)
+        Catch ex As Exception
+            Throw New ApplicationException("Hubo un fallo al crear una cochera movil", ex)
+        End Try
+    End Sub
+
 End Class

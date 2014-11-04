@@ -165,6 +165,7 @@ Partial Class FrmEspacio
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "FrmEspacio"
         Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Espacio"
         CType(Me.nupPiso, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTipo.ResumeLayout(False)

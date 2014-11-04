@@ -88,14 +88,52 @@ Public Class FrmAdministracion
   
     Private Sub btnPlayaGenerar_Click(sender As Object, e As EventArgs) Handles btnPlayaGenerar.Click
 
-        Dim frmPlaya As New FrmPlaya()
+        Dim frmPlaya As New FrmPlayaGenerar()
         If (frmPlaya.ShowDialog() = Windows.Forms.DialogResult.OK) Then
             Dim playaGenerada As Playa = frmPlaya.Playa
             Dim playaLogic As New PlayaLogic
-            playaLogic.Guardar(playaGenerada)
-            Me.Playas.Add(playaGenerada)
-            Me.RefreshGrid()
+            Try
+                Dim playaExistente As Boolean = Me.Playas.Any(Function(p As Playa)
+                                                                  Return p.Nombre.Trim.ToUpper = playaGenerada.Nombre.Trim.ToUpper Or p.Direccion.Trim.ToUpper = playaGenerada.Direccion.Trim.ToUpper
+                                                              End Function)
+
+
+                If (Not playaExistente) Then
+                    playaLogic.Guardar(playaGenerada)
+                    Me.Playas.Add(playaGenerada)
+                    Me.RefreshGrid()
+                Else
+                    MsgBox("Ya se encuentra una playa creada con los mismos datos principales, la misma fue descartada.")
+                End If
+            Catch appEx As ApplicationException
+                MsgBox(appEx.Message)
+            Catch ex As Exception
+                MsgBox("Ocurrio un error inesperado: " & ex.Message)
+            End Try
         End If
 
+    End Sub
+
+    Private Sub btnPlayaEliminar_Click(sender As Object, e As EventArgs) Handles btnPlayaEliminar.Click
+        If (Me.dgvPlayas.SelectedRows.Count > 0) Then
+
+            If (MsgBox("Esta seguro que desea eliminar la playa? Es imposible de deshacer..", MsgBoxStyle.OkCancel, "Confirme") = MsgBoxResult.Ok) Then
+
+                Dim playaSeleccionada As Playa = Me.dgvPlayas.SelectedRows(0).DataBoundItem
+
+                Try
+                    Dim playaLogic As New PlayaLogic
+                    playaLogic.Eliminar(playaSeleccionada)
+                    Me.Playas.Remove(playaSeleccionada)
+                    Me.RefreshGrid()
+                Catch appEx As ApplicationException
+                    MsgBox(appEx.Message)
+                Catch ex As Exception
+                    MsgBox("Ocurrio un error inesperado: " & ex.Message)
+                End Try
+
+            End If
+
+        End If
     End Sub
 End Class
