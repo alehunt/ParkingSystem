@@ -32,17 +32,23 @@ Public Class EspacioLogic
 
     End Sub
 
-    Function GetMontoAbonar(cocheraMovil As CocheraMovil) As Decimal
+    Function GetMontoAbonar(espacio As Espacio) As Decimal
 
         Dim monto As Decimal = 0
 
-        'Siempre se cobra la hora en curso entera..
-        Dim differenceInHours As Integer = (DateTime.Now - cocheraMovil.HoraEntrada.Value).Hours + 1
+        If (espacio.GetType() Is GetType(CocheraFija)) Then
+            Dim cocheraFija As CocheraFija = DirectCast(espacio, CocheraFija)
+            monto = cocheraFija.ValorMes
+        ElseIf (espacio.GetType() Is GetType(CocheraMovil)) Then
+            Dim cocheraMovil As CocheraMovil = DirectCast(espacio, CocheraMovil)
 
-        If differenceInHours > 5 Then
-            monto = cocheraMovil.Vehiculo.Tipo.ValorEstadia
-        Else
-            monto = cocheraMovil.Vehiculo.Tipo.ValorHora * differenceInHours
+            Dim differenceInHours As Integer = (DateTime.Now - cocheraMovil.HoraEntrada.Value).Hours + 1
+
+            If differenceInHours > 5 Then
+                monto = cocheraMovil.Vehiculo.Tipo.ValorEstadia
+            Else
+                monto = cocheraMovil.Vehiculo.Tipo.ValorHora * differenceInHours
+            End If
         End If
 
         Return monto
@@ -53,6 +59,23 @@ Public Class EspacioLogic
         EspacioDataAccess.EliminarCocheraMovilPorPlaya(playaId)
         EspacioDataAccess.EliminarEspacioPorPlaya(playaId)
     End Sub
+
+    Function GetTipoPago(espacio As Espacio) As String
+
+        Dim tipoPago As String = "Ya Abono"
+
+        If (Not espacio.Vehiculo.Abono) Then
+
+            If (espacio.GetType() Is GetType(CocheraFija)) Then
+                tipoPago = "Abono Mensual"
+
+            ElseIf (espacio.GetType() Is GetType(CocheraMovil)) Then
+                tipoPago = "Abono Por Hora"
+            End If
+        End If
+
+        Return tipoPago
+    End Function
 
 
 End Class

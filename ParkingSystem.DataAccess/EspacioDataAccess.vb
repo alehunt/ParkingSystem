@@ -103,7 +103,7 @@ Public Class EspacioDataAccess
 
         Dim command As String = "Insert Into Espacio (EspacioId, PlayaId, Codigo, Piso,Tamano, VehiculoId) " & _
                                 "Values(" & proximoId & ", " & espacio.PlayaId & ", '" & espacio.Codigo & "', " & _
-                                espacio.Piso & ", '" & espacio.Tamano & "', " & vehiculoId & ")"
+                                espacio.Piso & ", '" & espacio.Tamano.ToString() & "', " & vehiculoId & ")"
 
         Try
             Database.ExecuteNonQuery(command)

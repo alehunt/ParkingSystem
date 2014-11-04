@@ -1,9 +1,11 @@
 ﻿Imports ParkingSystem.Model
 Imports ParkingSystem.BusinessLogic
 
-Public Class FrmPlaya
+Public Class FrmPlayaGenerar
 
     Public Property Playa As Playa
+
+
 
     Private Sub btnEspacioAgregar_Click(sender As Object, e As EventArgs) Handles btnEspacioAgregar.Click
         Dim frmEspacio As New FrmEspacio()
@@ -22,19 +24,24 @@ Public Class FrmPlaya
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        Me.Playa.Direccion = Me.txtPlayaDireccion.Text
-        Me.Playa.Nombre = Me.txtPlayaNombre.Text
-        Me.Playa.HoraApertura = Me.mTxtHoraApertura.Text
-        Me.Playa.HoraCierre = Me.mTxtHoraCierre.Text
 
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        If (Me.ValidarPlaya()) Then
+            Me.Playa.Direccion = Me.txtPlayaDireccion.Text
+            Me.Playa.Nombre = Me.txtPlayaNombre.Text
+            Me.Playa.HoraApertura = Me.mTxtHoraApertura.Text
+            Me.Playa.HoraCierre = Me.mTxtHoraCierre.Text
+
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        End If
 
     End Sub
 
     Private Sub GridRefresh()
         Me.dgvEspacios.DataSource = Nothing
-        Me.dgvEspacios.DataSource = Me.Playa.Espacios
+
+        Me.dgvEspacios.DataSource = Me.Playa.Espacios.ToList()
+        Me.dgvEspacios.Refresh()
     End Sub
 
     Private Sub InitializeGrid()
@@ -90,20 +97,69 @@ Public Class FrmPlaya
 
     Private Sub dgvEspacios_DataSourceChanged(sender As Object, e As EventArgs) Handles dgvEspacios.DataSourceChanged
 
-        For Each row As DataGridViewRow In Me.dgvEspacios.Rows
+        If (Me.dgvEspacios.RowCount > 0) Then
+            For Each row As DataGridViewRow In Me.dgvEspacios.Rows
 
-            Dim espacio As Espacio = row.DataBoundItem
-
-            If (espacio.GetType Is GetType(CocheraMovil)) Then
-                row.Cells("Tipo").Value = "Movil"
-            Else
-                row.Cells("Tipo").Value = "Fija"
-            End If
-        Next
+                Dim espacio As Espacio = row.DataBoundItem
+                If (espacio.GetType Is GetType(CocheraMovil)) Then
+                    row.Cells("Tipo").Value = "Movil"
+                Else
+                    row.Cells("Tipo").Value = "Fija"
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
         Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
+
+    Private Sub btnEspacioElminar_Click(sender As Object, e As EventArgs) Handles btnEspacioElminar.Click
+        If (Me.dgvEspacios.SelectedRows.Count >= 0) Then
+
+            For Each selectedRow As DataGridViewRow In Me.dgvEspacios.SelectedRows
+                Dim espacioSeleccionado As Espacio = selectedRow.DataBoundItem
+
+                Me.Playa.Espacios.RemoveAt(espacioSeleccionado.Index)
+            Next
+
+            Me.GridRefresh()
+        End If
+    End Sub
+
+    Private Function ValidarPlaya() As Boolean
+        Dim playaValida As Boolean = True
+
+        Dim dateOut As DateTime
+
+        If Not DateTime.TryParse(Me.mTxtHoraApertura.Text, dateOut) Then
+            playaValida = False
+            MsgBox("Debe ingresar correctamente la hora de apertura")
+        End If
+
+        If playaValida And Not DateTime.TryParse(Me.mTxtHoraCierre.Text, dateOut) Then
+            playaValida = False
+            MsgBox("Debe ingresar correctamente la hora de cierre")
+        End If
+
+        If (playaValida And String.IsNullOrEmpty(Me.txtPlayaNombre.Text.Trim)) Then
+            playaValida = False
+            MsgBox("Debe ingresar un nombre para la playa")
+        End If
+
+        If (playaValida And String.IsNullOrEmpty(Me.txtPlayaDireccion.Text.Trim)) Then
+            playaValida = False
+            MsgBox("Debe ingresar una direccion para la playa")
+        End If
+
+        If (playaValida And Me.Playa.Espacios.Count <= 0) Then
+            playaValida = False
+            MsgBox("Debe cargar al menos un espacio.")
+        End If
+
+        Return playaValida
+
+    End Function
+
 End Class

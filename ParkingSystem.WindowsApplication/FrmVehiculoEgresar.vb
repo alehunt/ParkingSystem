@@ -18,19 +18,9 @@ Public Class FrmVehiculoEgresar
         Me.mTxtPatente.Text = Me.Espacio.Vehiculo.Patente
         Me.chkAbono.Checked = Me.Espacio.Vehiculo.Abono
 
-        If (Espacio.GetType() Is GetType(CocheraFija)) Then
-            Dim cocheraFija As CocheraFija = DirectCast(Me.Espacio, CocheraFija)
-            Me.lblTipoPagoValue.Text = "Abono Mensual"
-            Me.lblMontoPagoValue.Text = cocheraFija.ValorMes
-        End If
+        Me.lblTipoPagoValue.Text = Me.EspacioLogic.GetTipoPago(Me.Espacio)
+        Me.lblMontoPagoValue.Text = Me.EspacioLogic.GetMontoAbonar(Me.Espacio)
 
-        If (Espacio.GetType() Is GetType(CocheraMovil)) Then
-            Dim cocheraMovil As CocheraMovil = DirectCast(Me.Espacio, CocheraMovil)
-
-            Me.lblTipoPagoValue.Text = "Abono Movil"
-            Me.lblMontoPagoValue.Text = Me.EspacioLogic.GetMontoAbonar(cocheraMovil)
-
-        End If
     End Sub
 
 
